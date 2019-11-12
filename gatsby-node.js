@@ -35,6 +35,7 @@ exports.onPreBootstrap = ({ reporter }, options) => {
     !features.firestore &&
     !features.storage &&
     !features.messaging &&
+    !features.config &&
     !features.functions
   ) {
     reporter.panic(ERROR_MESSAGE);

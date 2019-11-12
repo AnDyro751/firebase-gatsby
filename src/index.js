@@ -29,12 +29,7 @@ function Index({ features, children }) {
         functions
       ]).then(values => {
         const firebaseInstance = values[0];
-        firebaseInstance
-          .firestore()
-          .enablePersistence()
-          .catch(e => {
-            console.log("AN ERROR FIRESTORE PERSISTENCE", e);
-          });
+
         firebaseInstance.initializeApp({
           apiKey: process.env.GATSBY_FIREBASE_API_KEY,
           authDomain: process.env.GATSBY_FIREBASE_AUTH_DOMAIN,
@@ -44,6 +39,12 @@ function Index({ features, children }) {
           messagingSenderId: process.env.GATSBY_FIREBASE_MESSAGING_SENDER_ID,
           appId: process.env.GATSBY_FIREBASE_APP_ID
         });
+        firebaseInstance
+          .firestore()
+          .enablePersistence()
+          .catch(e => {
+            console.log("AN ERROR FIRESTORE PERSISTENCE", e);
+          });
         setFirebase(firebaseInstance);
       });
     }
