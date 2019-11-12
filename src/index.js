@@ -1,10 +1,5 @@
-require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`,
-  encoding: "latin1"
-});
 import React from "react";
 import FirebaseContext from "./components/FirebaseContext";
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
 function Index({ features, children }) {
   const [firebase, setFirebase] = React.useState(null);
 
@@ -12,6 +7,7 @@ function Index({ features, children }) {
     if (!firebase && typeof window !== "undefined") {
       const app = import("firebase/app");
       const auth = features.auth ? import("firebase/auth") : null;
+      const config = features.config ? import("firebase/remote-config") : null;
       const database = features.database ? import("firebase/database") : null;
       const firestore = features.firestore
         ? import("firebase/firestore")
@@ -23,7 +19,6 @@ function Index({ features, children }) {
       const functions = features.functions
         ? import("firebase/functions")
         : null;
-
       Promise.all([
         app,
         auth,
@@ -34,6 +29,12 @@ function Index({ features, children }) {
         functions
       ]).then(values => {
         const firebaseInstance = values[0];
+        firebaseInstance
+          .firestore()
+          .enablePersistence()
+          .catch(e => {
+            console.log("AN ERROR FIRESTORE PERSISTENCE", e);
+          });
         firebaseInstance.initializeApp({
           apiKey: process.env.GATSBY_FIREBASE_API_KEY,
           authDomain: process.env.GATSBY_FIREBASE_AUTH_DOMAIN,
