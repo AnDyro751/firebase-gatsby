@@ -26,7 +26,8 @@ function Index({ features, children }) {
         firestore,
         storage,
         messaging,
-        functions
+        functions,
+        config
       ]).then(values => {
         const firebaseInstance = values[0];
 
