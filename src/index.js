@@ -7,6 +7,7 @@ function Index({ features, children }) {
     if (!firebase && typeof window !== "undefined") {
       const app = import("firebase/app");
       const auth = features.auth ? import("firebase/auth") : null;
+      const analytics = features.analytics ? import("firebase/analytics") : null;
       const config = features.config ? import("firebase/remote-config") : null;
       const database = features.database ? import("firebase/database") : null;
       const firestore = features.firestore
@@ -27,7 +28,8 @@ function Index({ features, children }) {
         storage,
         messaging,
         functions,
-        config
+        config,
+        analytics
       ]).then(values => {
         const firebaseInstance = values[0];
 
