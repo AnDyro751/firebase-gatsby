@@ -32,7 +32,6 @@ function Index({ features, children }) {
         analytics
       ]).then(values => {
         const firebaseInstance = values[0];
-
         firebaseInstance.initializeApp({
           apiKey: process.env.GATSBY_FIREBASE_API_KEY,
           authDomain: process.env.GATSBY_FIREBASE_AUTH_DOMAIN,
